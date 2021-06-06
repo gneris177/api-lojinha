@@ -6,7 +6,6 @@ const UserSchema = new Schema({
   email: String,
   senha:   String,
   endereco: String,
-  bairro: String,
   loja: String,
   linkOnline: String
 });
