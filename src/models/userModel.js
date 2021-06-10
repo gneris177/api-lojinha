@@ -2,9 +2,9 @@ const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const UserSchema = new Schema({
-  nome:  String,
+  nome: String,
   email: String,
-  senha:   String,
+  senha: String,
   endereco: String,
   loja: String,
   linkOnline: String

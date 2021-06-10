@@ -9,6 +9,7 @@ const homeRouter = require("./routes/homeRouter");
 const registerRouter = require("./routes/registerRouter");
 const loginRouter = require("./routes/loginRouter");
 const addProdutoRouter = require("./routes/addProductRouter");
+const editProdutoRouter = require("./routes/editProductRouter");
 
 //json
 app.use(express.json());
@@ -23,7 +24,7 @@ mongoose
 app.use(homeRouter);
 app.use(registerRouter);
 app.use(loginRouter);
-app.use(addProdutoRouter);
+app.use(editProdutoRouter);
 
 //server
 app.listen(7000, console.log("Server rodando em localhost:7000"));
