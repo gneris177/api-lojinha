@@ -57,3 +57,14 @@ exports.delete = (req, res) => {
     console.log(e);
   }
 };
+
+//List Public
+exports.listProducts = (req, res) => {
+  try { 
+    Product.find()
+      .then((products) => res.json({ products: products }))
+      .catch((e) => res.send(e));
+  } catch (e) {
+    console.log(e);
+  }
+};
