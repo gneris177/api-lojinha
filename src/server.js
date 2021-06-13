@@ -9,15 +9,20 @@ const mongoose = require("mongoose");
 const homeRouter = require("./routes/homeRouter");
 const registerRouter = require("./routes/registerRouter");
 const loginRouter = require("./routes/loginRouter");
-
 const addProdutoRouter = require("./routes/addProductRouter");
 const editProdutoRouter = require("./routes/editProductRouter");
 const deleteProdutoRouter = require("./routes/deleteProductRouter");
 const myProductRouter = require("./routes/myProductRouter"); 
+const listProductsRouter = require("./routes/listProductsRouter"); 
+const createClient = require("./routes/createClientRouter"); 
+const charge = require("./routes/chargeRouter"); 
 
 //json
-app.use(bodyParser.json())
 app.use(express.json());
+app.use(express.urlencoded({
+  extended: true
+}));
+
 
 //db
 mongoose
@@ -29,11 +34,14 @@ mongoose
 app.use(homeRouter);
 app.use(registerRouter);
 app.use(loginRouter);
-
 app.use(addProdutoRouter);
 app.use(deleteProdutoRouter);
 app.use(editProdutoRouter);
 app.use(myProductRouter);
+app.use(listProductsRouter);
+app.use(createClient);
+app.use(charge);
+
 
 
 //server
