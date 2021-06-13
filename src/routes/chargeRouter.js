@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const product = require('../controllers/productController');
+const advertising = require('../controllers/advertisingController');
 
 router.use(auth);
-router.post('/addproduct', product.add);
+router.post('/charge', advertising.charge);
 
 
 module.exports = router;
