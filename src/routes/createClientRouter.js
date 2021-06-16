@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const auth = require('../middleware/auth');
-const advertising = require('../controllers/advertisingController');
+const payment = require('../controllers/paymentController');
 
 router.use(auth);
-router.post('/create-client', advertising.createClient);
+router.post('/create-client', payment.createClient);
 
 
 module.exports = router;

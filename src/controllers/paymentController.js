@@ -15,9 +15,8 @@ exports.createClient = (req, res) => {
         body: `{ "name": ${name}, "cpfCnpj": ${cnpj} }`,
       },
       (error, response, body) => {
-        console.log("Status:", response.statusCode);
-        console.log("Headers:", JSON.stringify(response.headers));
-        console.log("Response:", body);
+        res.status(200).json({ message: body });
+        res.status(400).json({ message: error });
       }
     );
   } catch (e) {
@@ -27,7 +26,7 @@ exports.createClient = (req, res) => {
 
 exports.charge = (req, res) => {
   try {
-    const { customer, value, dueDate, description} = req.body;
+    const { customer, value, dueDate, description } = req.body;
 
     request(
       {
@@ -37,12 +36,11 @@ exports.charge = (req, res) => {
           "Content-Type": "application/json",
           access_token: process.env.pss,
         },
-        body: `{  "customer": ${customer},  "billingType": "BOLETO",  "dueDate": ${dueDate}, "value": ${value}, "description": ${description} }`,
+        body: `{"customer": ${customer}, "billingType": "BOLETO", "dueDate": ${dueDate}, "value": ${value}, "description": ${description} }`,
       },
       (error, response, body) => {
-        console.log("Status:", response.statusCode);
-        console.log("Headers:", JSON.stringify(response.headers));
-        console.log("Response:", body);
+        res.status(200).json({ message: body });
+        res.status(400).json({ message: error });
       }
     );
   } catch (e) {

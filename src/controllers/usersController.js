@@ -4,23 +4,33 @@ const jwt = require("jsonwebtoken");
 
 exports.register = async (req, res, next) => {
   try {
+    const {
+      name,
+      email,
+      password,
+      businessAdress,
+      businessName,
+      businessOnline,
+      businesstype,
+    } = req.body;
     const salt = await bcrypt.genSalt(10);
-    const senha = await bcrypt.hash(req.body.senha, salt);
+    const pss = await bcrypt.hash(password, salt);
 
     user
       .create({
-        nome: req.body.nome,
-        email: req.body.email,
-        senha: senha,
-        endereco: req.body.endereco,
-        loja: req.body.loja,
-        linkOnline: req.body.linkOnline,
+        name: name,
+        email: email,
+        password: pss,
+        businessAdress: businessAdress,
+        businessName: businessName,
+        businessOnline: businessOnline,
+        businesstype: businesstype,
       })
-      .then(() => res.json({"mensagem":"sucesso"}))
-      .catch(e => res.json(`"mensagem":"${e}"`));
-    } catch(e) {
-        console.log(e);
-    };
+      .then(() => res.json({ mensagem: "sucesso" }))
+      .catch((e) => res.json(`"mensagem":"${e}"`));
+  } catch (e) {
+    console.log(e);
+  }
 };
 
 exports.login = async (req, res, next) => {
@@ -51,7 +61,7 @@ exports.login = async (req, res, next) => {
       );
 
       req.params.id = user._id;
-      res.status(200).json({ mensagem: "sucesso", token});
+      res.status(200).json({ mensagem: "sucesso", token });
     }
   } catch (e) {
     res.json({ mensagem: "erro ao fazer login" });
