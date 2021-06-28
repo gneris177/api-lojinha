@@ -59,6 +59,7 @@ exports.edit = (req, res) => {
 exports.delete = (req, res) => {
   try {
     const id = req.body.id;
+    
     Product.findByIdAndDelete(id)
       .then(() => res.json({ message: "sucess" }))
       .catch((e) => res.json({ message: e }));

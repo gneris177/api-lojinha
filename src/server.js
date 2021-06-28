@@ -11,21 +11,25 @@ const loginRouter = require("./routes/loginRouter");
 const addProdutoRouter = require("./routes/addProductRouter");
 const editProdutoRouter = require("./routes/editProductRouter");
 const deleteProdutoRouter = require("./routes/deleteProductRouter");
-const myProductRouter = require("./routes/myProductRouter"); 
-const listProductsRouter = require("./routes/listProductsRouter"); 
-const createClient = require("./routes/createClientRouter"); 
-const charge = require("./routes/chargeRouter"); 
+const myProductRouter = require("./routes/myProductRouter");
+const listProductsRouter = require("./routes/listProductsRouter");
+const adsRouter = require("./routes/adsRouter");
 
 //json
 app.use(express.json());
-app.use(express.urlencoded({
-  extended: true
-}));
-
+app.use(
+  express.urlencoded({
+    extended: true,
+  })
+);
 
 //db
 mongoose
-  .connect(db.uri, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(db.uri, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useCreateIndex: true,
+  })
   .then(() => console.log("conn"))
   .catch((e) => console.log(`erro ${e}`));
 
@@ -37,10 +41,7 @@ app.use(deleteProdutoRouter);
 app.use(editProdutoRouter);
 app.use(myProductRouter);
 app.use(listProductsRouter);
-app.use(createClient);
-app.use(charge);
-
-
+app.use(adsRouter);
 
 //server
-app.listen(8000, console.log("Server rodando em localhost:7000"));
+app.listen(7000, console.log("Server rodando em localhost:7000"));
