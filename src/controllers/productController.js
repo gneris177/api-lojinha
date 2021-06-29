@@ -19,7 +19,7 @@ exports.add = async (req, res) => {
     Product.create({
       userId: req.userId,
       produto: product,
-      desc: desc,
+       desc: desc,
       imgUrl: imgUrl,
     })
       .then((m) => res.json({ message: "sucess" }))
