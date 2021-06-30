@@ -1,5 +1,5 @@
 const User = require("../models/userModel");
-const Product = require("../models/produtoModel");
+const Product = require("../models/productModel");
 const cloudinary = require("../config/cloudinaryConfig");
 
 exports.add = async (req, res) => {
@@ -19,8 +19,7 @@ exports.add = async (req, res) => {
     Product.create({
       userId: req.userId,
       produto: product,
-      value: value,
-      desc: desc,
+       desc: desc,
       imgUrl: imgUrl,
     })
       .then((m) => res.json({ message: "sucess" }))

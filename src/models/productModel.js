@@ -1,13 +1,10 @@
 const mongoose = require("mongoose");
-const fs = require("fs");
-const path = require("path");
-const { promisify } = require("util");
 const { Schema } = mongoose;
 
 const ProductSchema = new Schema({
   userId: String,
-  product: String,
-  value: String,
+  name: String,
+  price: String,
   desc: String,
   imgUrl: String,
 });

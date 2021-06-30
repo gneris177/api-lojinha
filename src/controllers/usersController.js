@@ -84,13 +84,12 @@ exports.login = async (req, res) => {
         res.status(401).json({ message: "authentication failed" });
       } else {
         const token = jwt.sign(
-          { email: result.email, id: result._id },
+          { email: result[0].email, id: result[0]._id },
           process.env.JWT_SECRET,
-          { expiresIn: "100d" }
+          { expiresIn: "1d" }
         );
-
-        req.params.id = result._id;
-        res.status(200).json({ message: "sucess", token: token });
+        result[0].password = undefined;
+        res.status(200).json({ user: result[0], token: token });
       }
     });
   } catch (e) {
