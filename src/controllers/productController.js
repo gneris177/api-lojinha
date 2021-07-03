@@ -6,17 +6,13 @@ const fs = require("fs");
 exports.add = async (req, res) => {
   try {
     const { name, desc, price } = req.body;
-    console.log(req.body);
-    let imgUrl, idProduct;
 
-    Product.create({
+    const product = await Product.create({
       userId: req.userId,
       name: name,
       desc: desc,
       price: price,
-    })
-      .then((response) => (idProduct = response.id))
-      .catch((err) => res.status(400).json({ erro: err }));
+    }).catch((err) => res.status(400).json({ erro: err }));
 
     //upload img
     if (req.file) {
@@ -36,7 +32,7 @@ exports.add = async (req, res) => {
 
     //add url img
     Product.findByIdAndUpdate(
-      idProduct,
+      product.id,
       { imgUrl: imgUrl },
       { upsert: true, setDefaultsOnInsert: true, useFindAndModify: false }
     ).catch((e) => res.status(400).json({ message: e }));
@@ -45,7 +41,7 @@ exports.add = async (req, res) => {
     const job = new CronJob(
       "0 0 */3 * * *",
       async () => {
-        await Product.findByIdAndDelete(idProduct)
+        await Product.findByIdAndDelete(product.id)
           .then(() => jobStop())
           .catch((e) => console.log(e));
       },
@@ -55,37 +51,39 @@ exports.add = async (req, res) => {
     );
     const jobStop = () => job.stop();
 
-    res.status(200).json({ message: "sucess" });
+    res.status(200).json(product);
   } catch (err) {
-    res.status(400).json({ message: err });
+    res.status(400).json({ error: err });
   }
 };
 
-exports.products = (req, res) => {
+exports.products = async (req, res) => {
   try {
-    Product.find()
-      .then((products) => res.json({ message: products }))
-      .catch((e) => res.send(e));
-  } catch (e) {
-    console.log(e);
+    const products = await Product.find().catch((err) =>
+      res.status(400).json({ error: err })
+    );
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 
-exports.myProduct = (req, res) => {
+exports.myProduct = async (req, res) => {
   try {
-    const id = req.userId;
-    Product.find({ userId: id })
-      .then((products) => res.json({ message: products }))
-      .catch((e) => res.json({ message: e }));
-  } catch (e) {
-    console.log(e);
+    const products = await Product.find({ userId: req.userId }).catch((err) =>
+      res.json({ error: err })
+    );
+
+    res.status(200).json(products);
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 
-exports.edit = (req, res) => {
+exports.update = async (req, res) => {
   try {
     const { id, name, desc, price } = req.body;
-    Product.findByIdAndUpdate(
+    const product = await Product.findByIdAndUpdate(
       { _id: id },
       {
         name: name,
@@ -93,11 +91,11 @@ exports.edit = (req, res) => {
         price: price,
       },
       { new: true, useFindAndModify: false }
-    )
-      .then(() => res.status(200).json({ message: "sucess" }))
-      .catch((err) => res.json({ message: err }));
-  } catch (e) {
-    console.log(e);
+    ).catch((err) => res.json({ message: err }));
+
+    res.status(200).json(product);
+  } catch (err) {
+    res.status(400).json({ error: err });
   }
 };
 
@@ -106,9 +104,9 @@ exports.delete = (req, res) => {
     const id = req.body.id;
 
     Product.findByIdAndDelete(id)
-      .then(() => res.json({ message: "sucess" }))
-      .catch((e) => res.json({ message: e }));
-  } catch (e) {
-    console.log(e);
-  }
+      .then(() => res.status(200).json({ message: "sucess" }))
+      .catch((err) => res.status(200).json({ message: err }));
+  } catch (err) {
+    res.status(400).json({ error: err });
+  } 
 };
