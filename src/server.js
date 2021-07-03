@@ -8,11 +8,7 @@ const mongoose = require("mongoose");
 
 const registerRouter = require("./routes/registerRouter");
 const loginRouter = require("./routes/loginRouter");
-const addProdutoRouter = require("./routes/addProductRouter");
-const editProdutoRouter = require("./routes/editProductRouter");
-const deleteProdutoRouter = require("./routes/deleteProductRouter");
-const myProductRouter = require("./routes/myProductRouter");
-const listProductsRouter = require("./routes/listProductsRouter");
+const produtoRouter = require("./routes/productRouter");
 const adsRouter = require("./routes/adsRouter");
 
 //json
@@ -36,11 +32,7 @@ mongoose
 //routes
 app.use(registerRouter);
 app.use(loginRouter);
-app.use(addProdutoRouter);
-app.use(deleteProdutoRouter);
-app.use(editProdutoRouter);
-app.use(myProductRouter);
-app.use(listProductsRouter);
+app.use(produtoRouter);
 app.use(adsRouter);
 
 //server
