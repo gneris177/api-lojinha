@@ -7,11 +7,9 @@ const upload = multer({ dest: "uploads/" });
 const product = require("../controllers/productController");
 
 router.use(auth);
-
 router.post("/product-add", upload.single("productImg"), product.add);
-router.get("/myproduct", product.myProduct);
-router.delete("/deleteproduct", product.delete);
-router.get("/products", product.products);
-router.put("/editproduct", product.edit);
+router.get("/product-my", product.myProduct);
+router.put("/product-update", product.update);
+router.delete("/product-del", product.delete);
 
 module.exports = router;
