@@ -10,7 +10,6 @@ const registerRouter = require("./routes/registerRouter");
 const loginRouter = require("./routes/loginRouter");
 const produtoRouter = require("./routes/productRouter");
 const productsPublicRouter = require("./routes/productsPublicRouter");
-const adsRouter = require("./routes/adsRouter");
 
 //json
 app.use(express.json());
@@ -35,7 +34,6 @@ app.use(registerRouter);
 app.use(loginRouter);
 app.use(productsPublicRouter);
 app.use(produtoRouter);
-app.use(adsRouter);
 
 //server
 app.listen(7000, console.log("Server rodando em localhost:7000"));

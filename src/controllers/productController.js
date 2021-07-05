@@ -1,7 +1,6 @@
+const autoDelete = require("../services/autoDeleteProduct");
+const uploadCloudnary = require("../services/uploadCloudnary");
 const Product = require("../models/productModel");
-const cloudinary = require("../config/cloudinaryConfig");
-const CronJob = require("cron").CronJob;
-const fs = require("fs");
 
 exports.add = async (req, res) => {
   try {
@@ -14,42 +13,18 @@ exports.add = async (req, res) => {
       price: price,
     }).catch((err) => res.status(400).json({ erro: err }));
 
-    //upload img
-    if (req.file) {
-      try {
-        response = await cloudinary.uploader.upload(req.file.path);
-        imgUrl = response.url;
-      } catch (err) {
-        res.status(400).json({ message: err });
-      }
-    }
-
-    //delete upload
-    const resultHandler = (err) => {
-      if (err) console.log("unlink failed", err);
-    };
-    fs.unlink(req.file.path, resultHandler);
+    //upload img in cloud
+    const cloudImg = await uploadCloudnary(req.file);
 
     //add url img
     Product.findByIdAndUpdate(
       product.id,
-      { imgUrl: imgUrl },
+      { imgUrl: cloudImg.url },
       { upsert: true, setDefaultsOnInsert: true, useFindAndModify: false }
     ).catch((e) => res.status(400).json({ message: e }));
 
     //auto delete later 24h
-    const job = new CronJob(
-      "0 0 */3 * * *",
-      async () => {
-        await Product.findByIdAndDelete(product.id)
-          .then(() => jobStop())
-          .catch((e) => console.log(e));
-      },
-      null,
-      true,
-      "America/Los_Angeles"
-    );
-    const jobStop = () => job.stop();
+    autoDelete.start();
 
     res.status(200).json(product);
   } catch (err) {
@@ -108,5 +83,5 @@ exports.delete = (req, res) => {
       .catch((err) => res.status(200).json({ message: err }));
   } catch (err) {
     res.status(400).json({ error: err });
-  } 
+  }
 };
