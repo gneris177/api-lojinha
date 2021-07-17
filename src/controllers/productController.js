@@ -24,7 +24,7 @@ exports.add = async (req, res) => {
       { upsert: true, setDefaultsOnInsert: true, useFindAndModify: false }
     ).catch((e) => res.status(400).json({ message: e }));
 
-    res.status(200).json(product);
+    res.status(200).json({ message: "sucess" });
   } catch (err) {
     res.status(400).json({ error: err });
   }

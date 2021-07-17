@@ -11,7 +11,7 @@ module.exports = async (file) => {
         if (err) console.log("unlink failed", err);
       };
       fs.unlink(file.path, resultHandler);
-
+      
       return response;
     } catch (err) {
       console.log(err);
