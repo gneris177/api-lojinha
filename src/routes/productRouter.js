@@ -1,15 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/auth");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 
-const product = require("../controllers/productController");
+const controller = require("../controllers/productController");
 
-router.use(auth);
-router.post("/product-add", upload.single("productImg"), product.add);
-router.get("/product-my", product.myProduct);
-router.put("/product-update", product.update);
-router.delete("/product-del", product.delete);
+router.post("/product-add", upload.single("productImg"), controller.add);
+router.get("/products", controller.products);
 
 module.exports = router;
