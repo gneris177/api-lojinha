@@ -1,6 +1,8 @@
 const express = require("express");
 const app = express();
 
+const PORT = process.env.PORT || 8877;
+
 const db = require("./database/config");
 
 const produtoRouter = require("./routes/productRouter");
@@ -15,4 +17,4 @@ db.conn();
 app.use(produtoRouter);
 
 //server
-app.listen(3000, console.log("Server in http://localhost:3000"));
+app.listen(PORT, console.log("Server in http://localhost:3000"));
