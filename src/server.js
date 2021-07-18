@@ -1,22 +1,20 @@
 require("dotenv").config();
+const cors = require('cors');
 
 const express = require("express");
 const app = express();
 
+app.use(cors());
+
 const PORT = process.env.PORT || 8877;
 
-const db = require("./database/config");
-
-const produtoRouter = require("./routes/productRouter");
-
-//json
-app.use(express.json());
-
 //db
+const db = require("./database/config");
 db.conn();
 
-//route
+//routes
+const produtoRouter = require("./routes/productRouter");
 app.use(produtoRouter);
 
-//server
+app.use(express.json());
 app.listen(PORT, console.log("Server ON"));
