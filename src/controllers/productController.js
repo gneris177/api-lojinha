@@ -37,6 +37,6 @@ exports.products = async (req, res) => {
     );
     res.status(200).json(products);
   } catch (err) {
-    res.status(400).json({ error: err });
+    res.status(400).json({ error: "erro" });
   }
 };
