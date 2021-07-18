@@ -19,4 +19,4 @@ db.conn();
 app.use(produtoRouter);
 
 //server
-app.listen(PORT, console.log("Server in http://localhost:3000"));
+app.listen(PORT, console.log("Server ON"));
